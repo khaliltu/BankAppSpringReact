@@ -1,6 +1,7 @@
 package tn.iit.bank.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,10 @@ public class ClientService {
 
 	public Client getClientById(String cin) throws Exception {
 		return clientRepository.findById(cin).orElseThrow(() -> new Exception("User not found"));
+	}
+	
+	public List<Client> getByNameStartingWith(String prefix) {
+		return clientRepository.findByNameStartingWith(prefix);
 	}
 
 	public List<Client> getAll() {

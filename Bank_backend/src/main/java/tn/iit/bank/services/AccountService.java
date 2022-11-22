@@ -15,7 +15,7 @@ public class AccountService {
 	private final AccountRepository accountRepository;
 
 	public Account save(Account account) {
-		return accountRepository.save(account);
+		return accountRepository.saveAndFlush(account);
 	}
 
 	public Account getAccountById(Long id) throws Exception {

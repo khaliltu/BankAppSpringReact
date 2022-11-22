@@ -23,13 +23,9 @@ public class MoneyTransferController {
 	public boolean sendMoney(@RequestBody JsonNode jsonNode) {
 		ObjectMapper objectMapper = new ObjectMapper();
 		try {
-			System.out.println("yes");
 			Account sender = objectMapper.treeToValue(jsonNode.get("sender"), Account.class);
-			System.out.println(sender.getBalance());
 			Account receiver = objectMapper.treeToValue(jsonNode.get("receiver"), Account.class);
-			System.out.println("yes");
 			Float amount = objectMapper.treeToValue(jsonNode.get("amount"), Float.class);
-			System.out.println(amount);
 			return moneyTransferService.sendMoney(sender, receiver, (float)amount);
 		} catch (Exception e) {
 			return false;

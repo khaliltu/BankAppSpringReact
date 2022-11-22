@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,11 @@ public class ClientController {
 
 	private final ClientService clientService;
 	
+	@GetMapping
+	public List<Client> getAll() {
+		return clientService.getAll();
+	}
+	
 	@GetMapping("/{cin}")
 	public ResponseEntity<Client> read(@PathVariable String cin) {
 		Client client;
@@ -36,9 +42,9 @@ public class ClientController {
 
 	}
 
-	@GetMapping
-	public List<Client> getAll() {
-		return clientService.getAll();
+	@GetMapping("/search")
+	public List<Client> searchByPrefix(@RequestParam String prefix){
+		return clientService.getByNameStartingWith(prefix);
 	}
 
 	@PostMapping
@@ -66,4 +72,5 @@ public class ClientController {
 		clientService.delete(client.getCin());
 		return client;
 	}
+	
 }
