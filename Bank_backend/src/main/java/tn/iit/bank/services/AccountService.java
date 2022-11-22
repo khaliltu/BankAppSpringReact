@@ -21,6 +21,10 @@ public class AccountService {
 	public Account getAccountById(Long id) throws Exception {
 		return accountRepository.findById(id).orElseThrow(() -> new Exception("Account not found"));
 	}
+	
+	public List<Account> getByClientCin(String cin) {
+		return accountRepository.findByClientCin(cin);
+	}
 
 	public List<Account> getAll() {
 		return accountRepository.findAll();

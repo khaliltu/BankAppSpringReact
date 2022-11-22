@@ -10,6 +10,6 @@ import tn.iit.bank.entities.Client;
 @Repository
 public interface ClientRepository extends JpaRepository<Client, String> {
 	
-	public List<Client> findByNameStartingWith(String prefix);
+	List<Client> findByNameStartingWith(String prefix);
 
 }

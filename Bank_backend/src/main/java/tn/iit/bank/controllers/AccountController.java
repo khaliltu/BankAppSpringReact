@@ -26,6 +26,11 @@ public class AccountController {
 	private final AccountService accountService;
 	private final ClientService clientService;
 
+	@GetMapping
+	public List<Account> getAll() {
+		return accountService.getAll();
+	}
+	
 	@GetMapping("/{id}")
 	public ResponseEntity<Account> read(@PathVariable Long id) {
 		Account account;
@@ -37,9 +42,9 @@ public class AccountController {
 		}
 	}
 
-	@GetMapping
-	public List<Account> getAll() {
-		return accountService.getAll();
+	@GetMapping("/owner/{cin}")
+	public List<Account> getByClient(@PathVariable String cin) {
+		return accountService.getByClientCin(cin);
 	}
 
 	@PostMapping
