@@ -10,6 +10,7 @@ const Header = () => {
             <Nav className="me-auto">
                 <Nav.Link href="http://localhost:3000/" >Accueil</Nav.Link>
                 <Nav.Link href="http://localhost:3000/clients" >Clients</Nav.Link>
+                <Nav.Link href="http://localhost:3000/accounts" >Accounts</Nav.Link>
             </Nav>
             </Container>
             </Navbar>
