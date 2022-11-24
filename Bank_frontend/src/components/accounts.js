@@ -4,9 +4,22 @@ import {Table} from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import AccountForm from "./accountFrom";
 import EditAccounts from "./editAccount";
+import DeleteModal from "./deleteModal";
 const Accounts = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const [modaldata, setmodaldata] = useState([]);
+    const [displayConfirmationModal, setDisplayConfirmationModal] = useState(false);
+    const [rib, setRib] = useState(null);
+    const [deleteMessage, setDeleteMessage] = useState(null);
+
+    const hideConfirmationModal = () => {
+      setDisplayConfirmationModal(false);
+    };
+    const showDeleteModal = (rib) => {
+      setRib(rib);
+      setDeleteMessage('Are you sure you want to delete the account '+ rib ) 
+      setDisplayConfirmationModal(true);
+    };
 
     const [accounts,setaccounts] = useState([])
     const showModal = (record) => {
@@ -57,13 +70,17 @@ const Accounts = () => {
                     <td>{account.balance}</td>
                     <td>{account.client.cin}</td>
                     <td><Button  onClick={() => showModal(account)}  >Edit</Button></td>
-                    <td><Button variant="danger" /* onSubmit={deleteClient()} */>Delete</Button></td>
+                    <td><Button variant="danger" onClick={async() =>showDeleteModal(account.rib)}>Delete</Button></td>
                  </tr>
                  )
             )}
             </tbody>
             </Table>
             {modalShow &&<EditAccounts data={modaldata} show={modalShow} onHide={() => setModalShow(false)}/>}
+            <DeleteModal showModal={displayConfirmationModal} 
+            //confirmModal={deleteClient} 
+            hideModal={hideConfirmationModal}  cin={""} message={deleteMessage}  />
+
         </div>
     );
 }

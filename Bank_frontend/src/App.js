@@ -5,6 +5,7 @@ import Header from './components/header';
 import Footer from './components/footer';
 import Home from './components/home';
 import Accounts from './components/accounts';
+import BankTransfer from './components/bankTransfer';
 function App() {
   return (
     <div className="App">
@@ -16,6 +17,7 @@ function App() {
           <Route path="/*" element={<Home/>} />
           <Route path="/clients" exact element={<Clients/>}/>
           <Route path="/accounts" element={<Accounts/>} />
+          <Route path="/bankTransfer" element={<BankTransfer/>}/>
         </Routes>
         </main>
         </div>

@@ -4,15 +4,23 @@ import {Table} from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import UserForm from "./userForm";
 import EditClient from "./editClient";
-import { useLocation } from "react-router-dom";
+import DeleteModal from "./deleteModal";
 const Clients = () => {
     const [modaldata, setmodaldata] = useState();
-    const [cin, setcin] = useState("");
+    const [displayConfirmationModal, setDisplayConfirmationModal] = useState(false);
+    const [cin, setCin] = useState(null);
+    const [deleteMessage, setDeleteMessage] = useState(null);
 
+    const hideConfirmationModal = () => {
+      setDisplayConfirmationModal(false);
+    };
+    const showDeleteModal = (cin) => {
+      setCin(cin);
+      setDeleteMessage('Are you sure you want to delete the client '+ cin ) 
+      setDisplayConfirmationModal(true);
+    };
     const [clients,setclients] = useState()
     const showModal = (record) => {
-        
-           
         setmodaldata(record);
         setModalShow(true)
 
@@ -36,17 +44,21 @@ const Clients = () => {
         
       },[clients]);
 
-      /* const deleteClient= ()=>{
-        try { axios.delete('http://127.0.0.1:8080/api/clients')}
-
-          catch(error) {
-          console.error(error.message);
-       }
-      };
+      const deleteClient= (cin)=>{
+        console.log(cin)
+        axios.delete(`http://127.0.0.1:8080/api/clients/delete/${cin}`,
+        cin,
+          { headers : { 'Content-Type': 'application/json'}})
+        .then(response=>{
+          console.log(response.data) 
+          setDisplayConfirmationModal(false);
+        })
+        .catch( console.log("erreur"))
+       };
 
       useEffect(() => {
         deleteClient();
-           }, []); */
+           }, []); 
       
     return ( 
         <div style={{"width":"80%",margin:"auto"}}>
@@ -75,13 +87,15 @@ const Clients = () => {
                     <td>{client.lastName}</td>
                     <td>{client.address}</td>
                     <td><Button  onClick={() => showModal(client)}  >Edit</Button></td>
-                    <td><Button variant="danger" /* onSubmit={deleteClient()} */>Delete</Button></td>
+                    <td><Button variant="danger" onClick={async() =>showDeleteModal(client.cin)} >Delete</Button></td>
                  </tr>
                  )
             )}
             </tbody>
             </Table>
             {modalShow &&<EditClient data={modaldata} show={modalShow} onHide={() => setModalShow(false)}/>}
+            <DeleteModal showModal={displayConfirmationModal} confirmModal={deleteClient} hideModal={hideConfirmationModal}  cin={cin} message={deleteMessage}  />
+
         </div>
     );
 }

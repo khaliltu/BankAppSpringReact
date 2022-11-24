@@ -1,16 +1,41 @@
 
 
-  import React, { useState } from 'react';
-  import Col from 'react-bootstrap/Col';
+  import React, { useEffect, useState } from 'react';
   import Container from 'react-bootstrap/Container';
   import Modal from 'react-bootstrap/Modal';
   import Row from 'react-bootstrap/Row';
   import { useForm } from "react-hook-form";
   import { Form, Button } from "react-bootstrap";
+import axios from 'axios';
   
   function EditAccounts(props,data) {
       const { register, handleSubmit} = useForm();
-  
+      const [account,setAccount]=useState([]);
+      useEffect (()=>{
+        console.log("aaa")
+        setAccount(props.data)
+      console.log(account)
+      },[account])
+  const setValue = event => {
+    event.target.value=event.target.placeholder
+  }
+  const updateValue =event =>{
+    var filed = event.target.name
+    account[filed]=event.target.value
+    console.log(account)
+  }
+  const updateAccount =() =>{
+    console.log(account)
+    axios.put('http://127.0.0.1:8080/api/accounts',
+    account,
+    { headers : { 'Content-Type': 'application/json'}})
+    .then(response=>{
+      console.log(response.data)
+    }
+    ).catch(
+      console.log("erreur")
+      )
+  }
     return (
       <Modal {...props} aria-labelledby="contained-modal-title-vcenter">
       <Form id="userForm" style={{width:"80%",margin:"auto"}}>
@@ -24,18 +49,18 @@
           <Container>
           <Row>
             <b><label>Name</label></b>
-        <input required {...register("name", {minLength: 3 })} placeholder=" Name" type="text">{data.cin}</input>
+        <input readOnly={true} required {...register("name", {minLength: 3 })} placeholder={account.client} type="text" onChange={updateValue} onFocus={setValue}></input>
        
             </Row>
             <Row>
             <b><label>Rib</label></b>
-        <input required {...register("cin", {minLength: 8 })} placeholder="Rib" type="text"></input>
+        <input required {...register("rib", {minLength: 8 })} placeholder={account.rib} type="text" onChange={updateValue} onFocus={setValue}></input>
       
             </Row>
   
             <Row>
             <b><label>  Balance</label></b>
-        <input required {...register("address", {minLength: 3 })} placeholder="Balance" type="text">{data.cin}</input>
+        <input required {...register("balance", {minLength: 3 })} placeholder={account.balance} type="text" onChange={updateValue} onFocus={setValue}>{data.cin}</input>
       
             </Row>
    
@@ -43,7 +68,9 @@
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={props.onHide}>Close</Button>
-          <Button onClick={props.onHide}>Edit</Button>
+          <Button onClick={async() => {
+                updateAccount()
+                props.onHide()}}>Edit</Button>
         </Modal.Footer>
         </Form>
       </Modal>

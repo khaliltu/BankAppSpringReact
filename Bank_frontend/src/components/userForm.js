@@ -32,7 +32,7 @@ const UserForm = () => {
       <b><label>Last Name</label></b>
       <input required {...register("lastName", {minLength: 3 })} placeholder="Last Name" type="text"></input>
     </div>
-    <div> <Button type="submit" variant="success">Add Student</Button></div>
+    <div> <Button type="submit" variant="success">Add Client</Button></div>
     </Form>
      );
 }

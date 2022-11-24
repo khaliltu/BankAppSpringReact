@@ -67,10 +67,10 @@ public class ClientController {
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 
-	@DeleteMapping
-	public Client delete(@RequestBody Client client) {
-		clientService.delete(client.getCin());
-		return client;
+	@DeleteMapping("/delete/{cin}")
+	public List<Client> delete(@PathVariable String cin) {
+		clientService.delete(cin);
+		return clientService.getAll();
 	}
 	
 }

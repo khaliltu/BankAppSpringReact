@@ -5,11 +5,10 @@ import Modal from 'react-bootstrap/Modal';
 import Row from 'react-bootstrap/Row';
 import { useForm } from "react-hook-form";
 import { Form, Button } from "react-bootstrap";
-import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 
-function EditClient(props) {
-    const { register, handleSubmit} = useForm();
+function EditClient(props,setModalShow) {
+    const { register} = useForm();
     const [client,setClient]=useState([]);
     useEffect (()=>{
       console.log("aaa")
@@ -74,7 +73,9 @@ const updateClient =() =>{
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={props.onHide}>Close</Button>
-        <Button onClick={updateClient()}>Edit</Button>
+        <Button onClick={async() => {
+                updateClient()
+                props.onHide()}}>Edit</Button>
       </Modal.Footer>
       </Form>
     </Modal>
