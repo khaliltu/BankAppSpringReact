@@ -1,9 +1,25 @@
 import {Button, Form, Table} from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import { useState, useEffect } from "react";
 
 const BankTransfer = () => {
     const { register, handleSubmit} = useForm();
+    const [transferHistory, setTransferHistory] = useState([])
+    useEffect(()=> {
+      try {
+      const fetchData = async () =>{
+        const result = await  axios.get('http://127.0.0.1:8080/api/money-transfer',
+                                          { headers : { 'Content-Type': 'application/json'}});
+        setTransferHistory(result.data)
+        
+      };   
+      fetchData(); 
+    } catch(error) {
+        console.error(error.message);
+     }
+      
+    },[transferHistory]);
     const onSubmit = data => {
       axios
        .post(
@@ -40,25 +56,25 @@ const BankTransfer = () => {
             <Table>
             <thead>
                 <tr>
-                    <th>Sender's RIB</th>
-                    <th>Receiver's RIB</th>
+                    <th>ID</th> 
+                    <th>Sender</th> 
+                    <th>Receiver</th>
                     <th>Amount</th>
                   
                 </tr>
             </thead>
-{/*              <tbody>
-            {clients && clients.map((client)=> (
-                 <tr  key={client.cin}   
-                        
-               >
-                    <td>{client.cin}</td>
-                    <td>{client.name}</td>
-                    <td>{client.lastName}</td>
+             <tbody>
+            { transferHistory && transferHistory.map((history)=> (
+                 <tr  key={history.id}>
+                    <td>{history.id}</td>
+                    <td>{history.sender.client.name} {history.sender.client.lastName}</td>
+                    <td>{history.receiver.client.name} {history.receiver.client.lastName}</td>
+                    <td>{history.amount}</td>
                   
                  </tr>
                  )
             )}
-            </tbody> */}
+            </tbody> 
             </Table>
 
         </div>

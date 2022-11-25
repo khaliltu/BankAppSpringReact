@@ -1,5 +1,8 @@
 package tn.iit.bank.controllers;
 
+import java.util.List;
+
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,7 +12,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
-import tn.iit.bank.entities.Account;
+import tn.iit.bank.entities.MoneyTransferHistory;
 import tn.iit.bank.services.MoneyTransferService;
 
 @RequiredArgsConstructor
@@ -19,6 +22,10 @@ public class MoneyTransferController {
 
 	private final MoneyTransferService moneyTransferService;
 
+	@GetMapping
+	public List<MoneyTransferHistory> getAll(){
+		return moneyTransferService.getAll();
+	}
 	@PostMapping
 	public boolean sendMoney(@RequestBody JsonNode jsonNode) {
 		ObjectMapper objectMapper = new ObjectMapper();
