@@ -14,17 +14,22 @@ public class MoneyTransferService {
 	private final AccountService accountService;
 	private final MoneyTransferHistoryRepository moneyTransferHistoryRepository;
 
-	public boolean sendMoney(Account sender, Account receiver, float amount) {
-		if (accountService.exist(sender.getRib()) && accountService.exist(receiver.getRib())) {
-			if (sender.getBalance() > amount) {
-				sender = performSend(sender, amount);
-				receiver = performReceive(receiver, amount);
-				MoneyTransferHistory history = createTransferHistory(sender, receiver, amount);
-				saveMoneyTransferHistory(history);
-				return true;
+	public boolean sendMoney(Long senderRib, Long receiverRib, float amount) {
+			try {
+				Account sender = accountService.getAccountById(receiverRib);
+				Account receiver= accountService.getAccountById(receiverRib);
+				if (sender.getBalance() > amount) {
+					sender = performSend(sender, amount);
+					receiver = performReceive(receiver, amount);
+					MoneyTransferHistory history = createTransferHistory(sender, receiver, amount);
+					saveMoneyTransferHistory(history);
+					return true;
+				}
+			} 
+			catch (Exception e) {
+				return false;
 			}
-		}
-		return false;
+			return false;
 	}
 	private MoneyTransferHistory createTransferHistory(Account sender, Account receiver, float amount) {
 		MoneyTransferHistory history = MoneyTransferHistory.builder().sender(sender).receiver(receiver)

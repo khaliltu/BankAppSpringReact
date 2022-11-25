@@ -23,8 +23,8 @@ public class MoneyTransferController {
 	public boolean sendMoney(@RequestBody JsonNode jsonNode) {
 		ObjectMapper objectMapper = new ObjectMapper();
 		try {
-			Account sender = objectMapper.treeToValue(jsonNode.get("sender"), Account.class);
-			Account receiver = objectMapper.treeToValue(jsonNode.get("receiver"), Account.class);
+			Long sender = objectMapper.treeToValue(jsonNode.get("sender"), Long.class);
+			Long receiver = objectMapper.treeToValue(jsonNode.get("receiver"), Long.class);
 			Float amount = objectMapper.treeToValue(jsonNode.get("amount"), Float.class);
 			return moneyTransferService.sendMoney(sender, receiver, (float)amount);
 		} catch (Exception e) {
