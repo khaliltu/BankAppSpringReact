@@ -7,7 +7,9 @@ const AccountForm = () => {
   const [account,setAccount] = useState([])
   const [cin,setCin]=useState([])
   const [client,setClient]=useState([])
-
+  const [clients,setClients]=useState([])
+  const[prefix,setPrefix]=useState([])
+  const [cl,setCl]=useState([])
   const onSubmit = data => {
     axios
      .post(
@@ -23,49 +25,65 @@ const AccountForm = () => {
         console.log(err)
     });
  };
- const setValue =event =>{
-  var filed = event.target.name
-  account[filed]=event.target.value
-  setCin(account.cin)
-  console.log(account)
-  console.log(cin)
+ const setValue = event => {
+  event.target.value=event.target.placeholder
 }
-const getNameClient= (cin)=>{
-  console.log(cin)
+  const updatePrefix =event =>{
+ 
+ // console.log(clients)
+}
+
+  const updateValue = event =>{
+    try {
+      setPrefix(event.target.value)
+      console.log(prefix)
+      const fetchData = async () =>{
+        const result = await  axios.get(`http://127.0.0.1:8080/api/clients/search?prefix=${prefix}`,
+        { headers : { 'Content-Type': 'application/json'}});
+        setClients(result.data)
+        console.log(clients)
+
+      };   
+      fetchData(); 
+    } catch(error) {
+        console.error(error.message);
+     }
+  }
+
+
+const choseClient=()=>{
+  console.log(client.cin)
+  setCin(client.cin)
   axios.get(`http://127.0.0.1:8080/api/clients/${cin}`,
-  cin,
     { headers : { 'Content-Type': 'application/json'}})
   .then(response=>{
     console.log(response.data) 
-    setClient(response.data)
-  })
-  .catch( console.log("erreur"))
- };
-
- /* useEffect(()=> {
-    try {
-    const fetchData = async () =>{
-      const result = await  axios.get('http://127.0.0.1:8080/api/clients/search',
-      { headers : { 'Content-Type': 'application/json'}});
-      setclients(result.data)
-    };   
-    fetchData(); 
-  } catch(error) {
-      console.error(error.message);
-   }
+    setCl(response.data)
+    console.log(cl)
+  })}
+ 
     
-  },[clients]); */
     return ( 
     <Form id="userForm" onSubmit={handleSubmit(onSubmit)} style={{width:"80%",margin:"auto"}}>
             <div style={{flexWrap:"nowrap",justifyContent:"space-between",marginBottom:"15px",}}>
       <b><label style={{marginRight:"15%"}}>Name</label></b>
-      <input type="text" placeholder="Name" required {...register("cin", {minLength: 8 })} onChange={setValue}></input>
+      <input style={{width:"300px"}}   placeholder="Name" required {...register("name", {minLength: 8 })} onChange={updateValue}></input>
+      {prefix && clients&& clients.map((client)=> (
+      <ul  role="listbox">
+      <li role="presentation" style={{marginLeft:"20%"}}  key={client.cin} > 
+      <a onClick={async()=>choseClient()} class="dropdown-item" href="#">{client.name} {client.lastName} | cin : {client.cin}</a>
+      </li>
+
+      </ul>
+
+      ))}
+
     </div>
     <div style={{display:"flex",flexWrap:"nowrap",justifyContent:"space-between",marginBottom:"15px",}}>
       <b><label style={{marginRight:"15%"}}>Rib</label></b>
-      <input required {...register("rib", {minLength: 8 })} placeholder="RIB" type="text" onChange={setValue}></input>
+      <input required {...register("rib", {minLength: 8 })} placeholder="RIB" type="text" ></input>
       <b><label style={{marginRight:"15%"}}>  Balance</label></b>
-      <input required {...register("balance", {minLength: 3 })} placeholder="Balance" type="text" onChange={setValue}></input>
+      <input required {...register("balance", {minLength: 3 })}  placeholder="Balance" type="text" ></input>
     </div>
 
     <div> <Button type="submit" variant="success">Add Account</Button></div>

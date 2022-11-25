@@ -6,7 +6,7 @@ const UserForm = () => {
   const onSubmit = data => {
     axios
      .post(
-         'http://127.0.0.1:8080/api/clients/',
+         'http://127.0.0.1:8080/api/clients',
          data,
          { headers: { 'Content-Type': 'application/json' }}
       )

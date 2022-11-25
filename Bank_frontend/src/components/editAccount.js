@@ -49,7 +49,7 @@ import axios from 'axios';
           <Container>
           <Row>
             <b><label>Name</label></b>
-        <input readOnly={true} required {...register("name", {minLength: 3 })} placeholder={account.client} type="text" onChange={updateValue} onFocus={setValue}></input>
+        <input readOnly={true} required {...register("name", {minLength: 3 })} value={account.client.name} type="text" onChange={updateValue} onFocus={setValue}></input>
        
             </Row>
             <Row>

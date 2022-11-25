@@ -22,7 +22,7 @@ public class MoneyTransferService {
 
 	public boolean sendMoney(Long senderRib, Long receiverRib, float amount) {
 		try {
-			Account sender = accountService.getAccountById(receiverRib);
+			Account sender = accountService.getAccountById(senderRib);
 			Account receiver = accountService.getAccountById(receiverRib);
 			if (sender.getBalance() > amount) {
 				sender = performSend(sender, amount);

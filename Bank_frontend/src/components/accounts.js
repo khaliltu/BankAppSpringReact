@@ -11,6 +11,7 @@ const Accounts = () => {
     const [displayConfirmationModal, setDisplayConfirmationModal] = useState(false);
     const [rib, setRib] = useState(null);
     const [deleteMessage, setDeleteMessage] = useState(null);
+    const [accounts,setaccounts] = useState([])
 
     const hideConfirmationModal = () => {
       setDisplayConfirmationModal(false);
@@ -21,7 +22,6 @@ const Accounts = () => {
       setDisplayConfirmationModal(true);
     };
 
-    const [accounts,setaccounts] = useState([])
     const showModal = (record) => {
         setmodaldata(record);
         setModalShow(true)
@@ -33,7 +33,7 @@ const Accounts = () => {
         try {
         const fetchData = async () =>{
           const result = await  axios.get('http://127.0.0.1:8080/api/accounts',
-                                            { headers : { 'Content-Type': 'application/json'}});
+          { headers : { 'Content-Type': 'application/json'}});
           setaccounts(result.data)
         };   
         fetchData(); 

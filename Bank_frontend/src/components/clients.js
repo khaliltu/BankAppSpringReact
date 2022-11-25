@@ -10,29 +10,29 @@ const Clients = () => {
     const [displayConfirmationModal, setDisplayConfirmationModal] = useState(false);
     const [cin, setCin] = useState(null);
     const [deleteMessage, setDeleteMessage] = useState(null);
+    const [name, setName] = useState(null);
+    const [lastname, setLastName] = useState(null);
+    const [modalShow, setModalShow] = useState(false);
+    const [clients,setclients] = useState()
 
     const hideConfirmationModal = () => {
       setDisplayConfirmationModal(false);
     };
-    const showDeleteModal = (cin) => {
-      setCin(cin);
-      setDeleteMessage('Are you sure you want to delete the client '+ cin ) 
+    const showDeleteModal = (cin,name,lastName) => {
+      setName(name)
+      setLastName(lastName)
+      setCin(cin)
+      setDeleteMessage('Are you sure you want to delete the client '+ name +' ' +lastName ) 
       setDisplayConfirmationModal(true);
     };
-    const [clients,setclients] = useState()
     const showModal = (record) => {
         setmodaldata(record);
         setModalShow(true)
-
       };
-      const [modalShow, setModalShow] = useState(false);
-      useEffect(() => {
-        
-      }, [])
-    useEffect(()=> {
+        useEffect(()=> {
         try {
         const fetchData = async () =>{
-          const result = await  axios.get('http://127.0.0.1:8080/api/clients',
+          const result = await  axios.get('http://127.0.0.1:8080/api/clients/',
                                             { headers : { 'Content-Type': 'application/json'}});
           setclients(result.data)
           
@@ -56,11 +56,7 @@ const Clients = () => {
         .catch( console.log("erreur"))
        };
 
-      useEffect(() => {
-        deleteClient();
-           }, []); 
-      
-    return ( 
+        return ( 
         <div style={{"width":"80%",margin:"auto"}}>
             <UserForm></UserForm>
             <hr></hr>
@@ -87,7 +83,7 @@ const Clients = () => {
                     <td>{client.lastName}</td>
                     <td>{client.address}</td>
                     <td><Button  onClick={() => showModal(client)}  >Edit</Button></td>
-                    <td><Button variant="danger" onClick={async() =>showDeleteModal(client.cin)} >Delete</Button></td>
+                    <td><Button variant="danger" onClick={async() =>showDeleteModal(client.cin,client.name,client.lastName)} >Delete</Button></td>
                  </tr>
                  )
             )}
