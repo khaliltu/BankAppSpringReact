@@ -24,7 +24,7 @@ public class ClientService {
 	public Client getClientById(String cin) throws Exception {
 		return clientRepository.findById(cin).orElseThrow(() -> new Exception("User not found"));
 	}
-	
+
 	public List<Client> getByNameStartingWith(String prefix) {
 		return clientRepository.findByNameStartingWith(prefix);
 	}

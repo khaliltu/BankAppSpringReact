@@ -8,5 +8,4 @@ import tn.iit.bank.entities.MoneyTransferHistory;
 @Repository
 public interface MoneyTransferHistoryRepository extends JpaRepository<MoneyTransferHistory, Long> {
 	
-	
 }

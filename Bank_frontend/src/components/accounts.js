@@ -6,10 +6,8 @@ import AccountForm from "./accountFrom";
 import EditAccounts from "./editAccount";
 import DeleteModal from "./deleteModal";
 const Accounts = () => {
-    const [modalOpen, setModalOpen] = useState(false);
     const [modaldata, setmodaldata] = useState([]);
     const [displayConfirmationModal, setDisplayConfirmationModal] = useState(false);
-    const [rib, setRib] = useState(null);
     const [deleteMessage, setDeleteMessage] = useState(null);
     const [accounts,setaccounts] = useState([])
 
@@ -17,7 +15,6 @@ const Accounts = () => {
       setDisplayConfirmationModal(false);
     };
     const showDeleteModal = (rib) => {
-      setRib(rib);
       setDeleteMessage('Are you sure you want to delete the account '+ rib ) 
       setDisplayConfirmationModal(true);
     };
@@ -78,7 +75,6 @@ const Accounts = () => {
             </Table>
             {modalShow &&<EditAccounts data={modaldata} show={modalShow} onHide={() => setModalShow(false)}/>}
             <DeleteModal showModal={displayConfirmationModal} 
-            //confirmModal={deleteClient} 
             hideModal={hideConfirmationModal}  cin={""} message={deleteMessage}  />
 
         </div>

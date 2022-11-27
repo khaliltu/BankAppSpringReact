@@ -50,3 +50,23 @@ public class Client implements Serializable {
 	@OneToMany(mappedBy = "client", cascade = CascadeType.REMOVE)
 	private List<Account> accounts;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
